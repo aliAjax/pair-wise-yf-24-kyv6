@@ -58,7 +58,7 @@ export const mockData = {
     {
       "id": 1,
       "old_document_id": 1,
-      "new_document_id": 1,
+      "new_document_id": 2,
       "section_id": 1,
       "diff_type": "REMOVED",
       "summary": "summary 1",
@@ -66,7 +66,7 @@ export const mockData = {
     },
     {
       "id": 2,
-      "old_document_id": 2,
+      "old_document_id": 1,
       "new_document_id": 2,
       "section_id": 2,
       "diff_type": "MODIFIED",
@@ -75,8 +75,8 @@ export const mockData = {
     },
     {
       "id": 3,
-      "old_document_id": 3,
-      "new_document_id": 3,
+      "old_document_id": 1,
+      "new_document_id": 2,
       "section_id": 3,
       "diff_type": "MOVED",
       "summary": "summary 3",
@@ -107,6 +107,55 @@ export const mockData = {
       "comment": "comment 3",
       "reviewer": "reviewer 3",
       "status": "OPEN"
+    }
+  ],
+  "reviewReport": [
+    {
+      "id": 1,
+      "title": "审阅报告 #1",
+      "old_version_label": "version label 1",
+      "new_version_label": "version label 2",
+      "created_at": "2026-06-14T09:00:00Z",
+      "items": [
+        {
+          "diff_result_id": 1,
+          "section_no": "section no 1",
+          "heading": "heading 1",
+          "diff_type": "REMOVED",
+          "risk_level": "MEDIUM",
+          "note_tag": "tag 1",
+          "note_comment": "初稿:删除条款影响待确认",
+          "note_reviewer": "reviewer 1",
+          "note_status": "OPEN",
+          "pending": true
+        },
+        {
+          "diff_result_id": 2,
+          "section_no": "section no 2",
+          "heading": "heading 2",
+          "diff_type": "MODIFIED",
+          "risk_level": "MEDIUM",
+          "note_tag": "tag 2",
+          "note_comment": "comment 2",
+          "note_reviewer": "reviewer 2",
+          "note_status": "IGNORED",
+          "pending": false
+        },
+        {
+          "diff_result_id": 3,
+          "section_no": "section no 3",
+          "heading": "heading 3",
+          "diff_type": "MOVED",
+          "risk_level": "HIGH",
+          "note_tag": "tag 3",
+          "note_comment": "comment 3",
+          "note_reviewer": "reviewer 3",
+          "note_status": "OPEN",
+          "pending": true
+        }
+      ],
+      "pending_count": 2,
+      "resolved_count": 1
     }
   ]
 } as const;
