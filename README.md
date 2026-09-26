@@ -2,6 +2,14 @@
 
 纯前端隐私政策版本对比与风险标注工具，用户粘贴两版文本后查看条款差异、风险标签和审阅清单，数据存 localStorage。
 
+## 审阅报告快照机制
+
+- **导出即冻结**：在「审阅清单」页点击导出会生成独立的 `ReviewReport` 快照，把当时的政策版本号、每条目的风险等级、备注与状态深拷贝后写入 localStorage（键 `policy-diff.review-reports`）。
+- **旧报告不可改写**：快照只增不改，API 层不提供 update/delete，重复写入同一编号会被拦截并抛出 `REPORT_FROZEN`；之后在工作区改备注或重标风险只会进入下一份导出。
+- **未完成区**：导出时仍处于 `OPEN` 状态的条目单独进入「未完成区」，不计入已通过，也不会在报告里写成已通过。
+- **可查看可比较**：历史快照可展开查看详情，任意两份快照可逐条比较风险等级、状态与备注的变化（变化类型复用 `DiffType` 枚举）。
+- 工作区数据（审阅备注、条款风险等级）分别持久化在 `policy-diff.workspace.review-notes` / `policy-diff.workspace.policy-sections`，与快照存储互不影响。
+
 ## 快速启动
 
 ```bash
@@ -50,9 +58,9 @@ frontend/src/api, stores, types, constants, constructors, components/common, hoo
 
 ## 枚举/常量出现位置清单
 
-- DiffType: constants/DiffType、types/DiffType、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
-- PrivacyRiskLevel: constants/PrivacyRiskLevel、types/PrivacyRiskLevel、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
-- ReviewStatus: constants/ReviewStatus、types/ReviewStatus、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
+- DiffType: constants/DiffType、types/DiffType、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用；快照比较（hooks/useReportCompare、ReportCompareView）复用其 ADDED/REMOVED/MODIFIED/UNCHANGED 表示条目变化。
+- PrivacyRiskLevel: constants/PrivacyRiskLevel、types/PrivacyRiskLevel、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用；快照条目与比较明细中作为冻结值展示（RiskTag、ReportItemTable）。
+- ReviewStatus: constants/ReviewStatus、types/ReviewStatus、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用；constants/ReviewReport 中的 PENDING_REVIEW_STATUS 引用其 OPEN 值划分未完成区。
 
 ## 为什么会牵一发动全身
 

@@ -1,21 +1,39 @@
 import { mockData } from "../mocks/seedData";
+import { LOG_TEMPLATES } from "../constants/logTemplates";
 import type { PolicySection } from "../types/PolicySection";
 
-const endpoint = "/api/policy-section";
+const STORAGE_KEY = "policy-diff.workspace.policy-sections";
 
-export async function listPolicySection(): Promise<PolicySection[]> {
-  if (typeof fetch !== "undefined" && endpoint.startsWith("/api") && false) {
-    try {
-      const res = await fetch(endpoint);
-      if (res.ok) return await res.json();
-    } catch {
-      // Local mock fallback keeps the UI available during offline review.
+const readRows = (): PolicySection[] => {
+  if (typeof localStorage !== "undefined") {
+    const cached = localStorage.getItem(STORAGE_KEY);
+    if (cached) {
+      try {
+        return JSON.parse(cached) as PolicySection[];
+      } catch {
+        // 本地缓存损坏时回退到种子数据
+      }
     }
   }
   return [...(mockData.policySection as unknown as PolicySection[])];
+};
+
+const writeRows = (rows: PolicySection[]) => {
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
+  }
+};
+
+export async function listPolicySection(): Promise<PolicySection[]> {
+  return readRows();
 }
 
 export async function savePolicySection(payload: PolicySection) {
-  console.info("save PolicySection", payload);
+  const rows = readRows();
+  const next = rows.some((row) => row.id === payload.id)
+    ? rows.map((row) => (row.id === payload.id ? payload : row))
+    : [...rows, payload];
+  writeRows(next);
+  console.info(LOG_TEMPLATES.PolicySection[1], payload);
   return payload;
 }

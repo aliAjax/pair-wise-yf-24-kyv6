@@ -108,5 +108,62 @@ export const mockData = {
       "reviewer": "reviewer 3",
       "status": "OPEN"
     }
+  ],
+  "reviewReport": [
+    {
+      "id": 1,
+      "report_no": "RPT-20260611-001",
+      "title": "隐私政策审阅报告 RPT-20260611-001",
+      "document_id": 1,
+      "policy_version_label": "version label 1",
+      "exported_by": "reviewer 1",
+      "exported_at": "2026-06-11T09:00:00Z",
+      "frozen": true,
+      "completed_items": [
+        {
+          "note_id": 1,
+          "diff_result_id": 1,
+          "section_id": 1,
+          "section_no": "section no 1",
+          "heading": "heading 1",
+          "diff_type": "REMOVED",
+          "risk_level": "LOW",
+          "tag": "tag 1",
+          "comment": "comment 1",
+          "reviewer": "reviewer 1",
+          "status": "CONFIRMED"
+        }
+      ],
+      "pending_items": [
+        {
+          "note_id": 2,
+          "diff_result_id": 2,
+          "section_id": 2,
+          "section_no": "section no 2",
+          "heading": "heading 2",
+          "diff_type": "MODIFIED",
+          "risk_level": "LOW",
+          "tag": "tag 2",
+          "comment": "comment 2",
+          "reviewer": "reviewer 2",
+          "status": "OPEN"
+        },
+        {
+          "note_id": 3,
+          "diff_result_id": 3,
+          "section_id": 3,
+          "section_no": "section no 3",
+          "heading": "heading 3",
+          "diff_type": "MOVED",
+          "risk_level": "MEDIUM",
+          "tag": "tag 3",
+          "comment": "comment 3",
+          "reviewer": "reviewer 3",
+          "status": "OPEN"
+        }
+      ],
+      "completed_count": 1,
+      "pending_count": 2
+    }
   ]
 } as const;
